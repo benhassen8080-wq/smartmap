@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://unpkg.com; img-src 'self' data: blob: https:; connect-src 'self' https: wss:; media-src 'self' blob:; worker-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta name="referrer" content="strict-origin">
+<title>خريطتي الذكية</title>
+<meta name="description" content="خريطة ذكية حيّة: طقس بعدة نماذج وذكاء اصطناعي، طائرات، أقمار صناعية، سفن، درونات، قوانين الدول، طوارئ دون إنترنت.">
+<meta name="theme-color" content="#0b1530">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="خريطتي">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="anonymous">
+<link rel="stylesheet" href="app.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="anonymous" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/satellite.js@5.0.0/dist/satellite.min.js" crossorigin="anonymous" defer></script>
+<script type="module" src="app.js"></script>
+</head>
+<body>
+  <div id="map" aria-label="الخريطة"></div>
+
+  <header id="top">
+    <form id="searchForm" autocomplete="off">
+      <span id="searchIcon" aria-hidden="true">🔎</span>
+      <input id="q" type="search" enterkeyhint="search" placeholder="اسأل أو ابحث: «مطاعم في برلين»، «اعرض الطائرات»…" aria-label="بحث">
+      <button type="button" id="qClear" class="ghost hidden" aria-label="مسح">✕</button>
+      <button type="submit" id="qGo" aria-label="بحث">⬆︎</button>
+    </form>
+    <div id="answer" class="card hidden"></div>
+    <div id="chips"></div>
+    <div id="tripAlert" class="hidden"></div>
+  </header>
+
+  <aside id="side">
+    <button id="btnStyle" class="round" title="نمط الخريطة">🗺️</button>
+    <button id="btnIdeas" class="round" title="اقتراحات">✨</button>
+    <button id="btnLocate" class="round" title="موقعي">📍</button>
+  </aside>
+
+  <div id="info">
+    <button id="tripMini" class="pill blue hidden"></button>
+    <button id="weatherMini" class="pill hidden"></button>
+    <button id="countryPill" class="pill">🌐 …</button>
+  </div>
+
+  <nav id="bottom">
+    <button data-open="layers"><span>🧭</span>الطبقات</button>
+    <button data-open="trip"><span>🚗</span>التنقّل</button>
+    <button data-open="emergency" class="sos"><span>🆘</span>الطوارئ</button>
+    <button data-open="history"><span>🕓</span>سجلي</button>
+    <button data-open="settings"><span>⚙️</span>الإعدادات</button>
+  </nav>
+
+  <div id="sheet" class="sheet hidden" role="dialog" aria-modal="true">
+    <div class="grab"></div>
+    <div class="sheetHead"><h2 id="sheetTitle"></h2><button id="sheetClose" class="ghost" aria-label="إغلاق">✕</button></div>
+    <div id="sheetBody"></div>
+  </div>
+
+  <div id="full" class="full hidden" role="dialog" aria-modal="true">
+    <div class="fullHead"><button id="fullClose" class="ghost">✕ إغلاق</button><h2 id="fullTitle"></h2><span></span></div>
+    <div id="fullBody"></div>
+  </div>
+
+  <div id="lock" class="hidden">
+    <div class="lockBox">
+      <div style="font-size:64px">🔒</div>
+      <h2>خريطتي الذكية مقفلة</h2>
+      <p>بياناتك مشفّرة على هذا الهاتف فقط</p>
+      <button id="unlockBtn" class="primary">فتح بـ Face ID</button>
+    </div>
+  </div>
+
+  <noscript>هذا التطبيق يحتاج JavaScript.</noscript>
+</body>
+</html>
